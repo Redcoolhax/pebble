@@ -14,7 +14,6 @@ public class ResponseWindow extends JFrame {
         super("HTTP Response");
         setSize(400, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(null);
 
         responseBody = new JTextArea(response.body());
         
