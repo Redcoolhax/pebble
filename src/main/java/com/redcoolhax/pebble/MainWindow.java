@@ -83,7 +83,7 @@ public class MainWindow extends JFrame {
             .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            new ResponseWindow(response);
         } catch (Exception e) {
             e.printStackTrace();
         }
