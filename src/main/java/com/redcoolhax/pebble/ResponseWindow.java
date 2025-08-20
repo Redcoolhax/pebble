@@ -22,7 +22,6 @@ public class ResponseWindow extends JFrame {
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
-        responseBodyScrollPane.setBounds(10, 10, 300, 300);
         add(responseBodyScrollPane);
 
         setVisible(true);
