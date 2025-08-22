@@ -1,5 +1,16 @@
 An IOException has occured while attempting to send the HTTP request or receive the response. 
-This usually happens by chance when receiving a response with a large response body. 
-If there are no other issues, it is recommended that you try again.
+Please take a look at the stack trace below to determine the cause.
 
-Full stack trace (for debugging purposes):
+- An EOFException usually occurs by chance, particularly with larger responses. 
+Trying to send the request again may solve the issue.
+- A ConnectException means that a connection couldn't be established. 
+This could be because the server isn't active, or took too long to respond. 
+If an IP address and port are being used, it could also be because one or 
+both of them are incorrect. It's also possible that a firewall may be 
+blocking the connection.
+
+If none of the above descriptions fit the situation, or if you are 
+experiencing a different kind of Exception entirely, please file a 
+bug report on the project's repository.
+
+Full stack trace:
