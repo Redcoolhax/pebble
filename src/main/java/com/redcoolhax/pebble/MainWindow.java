@@ -12,7 +12,9 @@ import java.net.http.HttpResponse;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -31,7 +33,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
 
-        Point topLeft = new Point(10, 10);
+        Point topLeft = new Point(10, 20);
 
         String[] requestMethods = {
             "GET",
@@ -63,6 +65,10 @@ public class MainWindow extends JFrame {
         httpVersionField.setSize(100, REQUEST_LINE_INPUT_HEIGHT);
         add(httpVersionField);
 
+        labelComponent(requestMethodSelection, "Request Method");
+        labelComponent(uriField, "URI");
+        labelComponent(httpVersionField, "HTTP Version");
+
         requestBody = new JTextArea();
         requestBody.setBounds(50, 100, 300, 200);
         add(requestBody);
@@ -73,6 +79,12 @@ public class MainWindow extends JFrame {
         add(sendRequestButton);
 
         setVisible(true);
+    }
+
+    private void labelComponent(JComponent component, String label) {
+        JLabel newLabel = new JLabel(label);
+        newLabel.setBounds(component.getX(), component.getY() - 20, component.getWidth(), 20);
+        add(newLabel);
     }
 
     private void onSendRequestButtonPress(ActionEvent event) {
