@@ -88,17 +88,21 @@ public class MainWindow extends JFrame {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             new TextWindow("HTTP Response", 400, 400, response.body());
         } catch (IOException e) {
-            handleIOExceptionForSendRequest(e);
+            newTextWindowForResourceAndStackTrace(
+                "IOException Occured During Request", 700, 400,
+                "send_request_io_exception.txt", e
+            );
         } catch (InterruptedException e) {
             
         }
     }
 
-    private static void handleIOExceptionForSendRequest(IOException e) {
+    private static void newTextWindowForResourceAndStackTrace(
+        String title, int width, int height, String resourcePath, Exception e
+        ) {
         try {
-            new TextWindow("IOException Occured During Request", 500, 500,
-                ResourceReading.readAsText("send_request_io_exception.txt") +
-                stackTraceAsString(e)
+            new TextWindow(title, width, height,
+                ResourceReading.readAsText(resourcePath) + stackTraceAsString(e)
             );
         } catch (Exception ex) {
             handleExceptionForResourceReading(ex);
