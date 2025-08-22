@@ -2,6 +2,9 @@ package com.redcoolhax.pebble;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -84,8 +87,37 @@ public class MainWindow extends JFrame {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             new TextWindow("HTTP Response", 400, 400, response.body());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            handleIOExceptionForSendRequest(e);
+        } catch (InterruptedException e) {
+            
         }
+    }
+
+    private static void handleIOExceptionForSendRequest(IOException e) {
+        try {
+            new TextWindow("IOException Occured During Request", 500, 500,
+                ResourceReading.readAsText("send_request_io_exception.txt") +
+                stackTraceAsString(e)
+            );
+        } catch (Exception ex) {
+            handleExceptionForResourceReading(ex);
+        }
+    }
+
+    private static void handleExceptionForResourceReading(Exception e) {
+        new TextWindow("Resource Reading Failed", 400, 400,
+            "A catastrophic error has occured when trying to read an internal resource. " +
+            "Please look at the stack trace below and file a bug report:\n" +
+            stackTraceAsString(e)
+        );
+        e.printStackTrace();
+    }
+
+    private static String stackTraceAsString(Exception e) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        e.printStackTrace(printWriter);
+        return stringWriter.toString();
     }
 }
