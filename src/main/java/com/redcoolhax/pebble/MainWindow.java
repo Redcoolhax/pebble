@@ -127,7 +127,6 @@ public class MainWindow extends JFrame {
             "Please look at the stack trace below and file a bug report:\n" +
             stackTraceAsString(e)
         );
-        e.printStackTrace();
     }
 
     private static String stackTraceAsString(Exception e) {
