@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -115,6 +116,8 @@ public class MainWindow extends JFrame {
                 requestMethodSelection.getSelectedItem().toString(),
                 HttpRequest.BodyPublishers.ofString(requestBody.getText())
             );
+        for (Pair<String, String> headerPair : getHeaderInput())
+            requestBuilder.header(headerPair.getKey(), headerPair.getValue());
 
         HttpRequest request = requestBuilder.build();
 
@@ -129,6 +132,23 @@ public class MainWindow extends JFrame {
         } catch (InterruptedException e) {
             
         }
+    }
+
+    private ArrayList<Pair<String, String>> getHeaderInput() {
+        String headerString = headersArea.getText();
+        
+        if (headerString.equals(""))
+            return new ArrayList<>();
+        
+        String[] lines = headerString.split("\n");
+        ArrayList<Pair<String, String>> headerPairs = new ArrayList<>();
+        for (String line : lines) {
+            String[] pair = line.split(":");
+            if (pair.length != 2)
+                throw new IllegalStateException("Error when parsing HTTP headers.");
+            headerPairs.add(new Pair<>(pair[0].trim(), pair[1].trim()));
+        }
+        return headerPairs;
     }
 
     private static void newTextWindowForResourceAndStackTrace(
