@@ -89,13 +89,16 @@ public class MainWindow extends JFrame {
 
     private void onSendRequestButtonPress(ActionEvent event) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
+
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
             .uri(URI.create(uriField.getText()))
             .method(
                 requestMethodSelection.getSelectedItem().toString(),
                 HttpRequest.BodyPublishers.ofString(requestBody.getText())
-            )
-            .build();
+            );
+
+        HttpRequest request = requestBuilder.build();
+        
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             new TextWindow("HTTP Response", 400, 400, response.body());
