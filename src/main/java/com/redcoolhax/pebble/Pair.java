@@ -1,5 +1,10 @@
 package com.redcoolhax.pebble;
 
+/**
+ * Represents a key-value pair. Immutable.
+ * @param K Key type.
+ * @param V Value type.
+ */
 public class Pair<K,V> {
     private final K key;
     private final V value;

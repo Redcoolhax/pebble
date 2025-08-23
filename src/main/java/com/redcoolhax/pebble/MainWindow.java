@@ -19,6 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * The window that the entire program is run on. 
+ * Comes with various components for building and sending HTTP requests, 
+ * as well as various error-handling measures.
+ */
 public class MainWindow extends JFrame {
     private static final int FIRST_ROW_COMPONENT_HEIGHT = 30;
 
@@ -29,6 +34,9 @@ public class MainWindow extends JFrame {
     private JTextArea requestBody;
     private JButton sendRequestButton;
 
+    /**
+     * Creates the MainWindow. Should only ever be called once for the duration of the program.
+     */
     public MainWindow() {
         super("Pebble");
         setSize(600, 400);
@@ -101,12 +109,22 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Creates a label for a component that is automatically added just above it.
+     * @param component The component to be labeled.
+     * @param label The text displayed above the component.
+     */
     private void labelComponent(JComponent component, String label) {
         JLabel newLabel = new JLabel(label);
         newLabel.setBounds(component.getX(), component.getY() - 20, component.getWidth(), 20);
         add(newLabel);
     }
 
+    /**
+     * The method to be assigned to the sendRequestButton. 
+     * Collects all the data from the other components, builds and sends an HTTP request.
+     * @param event
+     */
     private void onSendRequestButtonPress(ActionEvent event) {
         HttpClient client = HttpClient.newHttpClient();
 
@@ -134,6 +152,11 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Retrieves the info from the headersArea and returns it as an ArrayList of key-value Pairs.
+     * @return The HTTP headers inputted by the user in the headersArea.
+     * @throws IllegalStateException If the input in the headersArea is invalid.
+     */
     private ArrayList<Pair<String, String>> getHeaderInput() {
         String headerString = headersArea.getText();
 
@@ -151,6 +174,15 @@ public class MainWindow extends JFrame {
         return headerPairs;
     }
 
+    /**
+     * Creates a new TextWindow with a resource text file, with the stack trace of 
+     * an Exception appended to the end of it.
+     * @param title The title of the window.
+     * @param width The width of the window.
+     * @param height The height of the window.
+     * @param resourcePath The path to the resource file.
+     * @param e The Exception to get the stack trace from.
+     */
     private static void newTextWindowForResourceAndStackTrace(
         String title, int width, int height, String resourcePath, Exception e
         ) {
@@ -163,6 +195,11 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Creates a new TextWindow with a default message for when an Exception occurs 
+     * while trying to read a resource.
+     * @param e The Exception to get the stack trace from.
+     */
     private static void handleExceptionForResourceReading(Exception e) {
         new TextWindow("Resource Reading Failed", 400, 400,
             "A catastrophic error has occured when trying to read an internal resource. " +
@@ -171,6 +208,10 @@ public class MainWindow extends JFrame {
         );
     }
 
+    /**
+     * @param e An Exception.
+     * @return The Exception's stack trace as a String.
+     */
     private static String stackTraceAsString(Exception e) {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
