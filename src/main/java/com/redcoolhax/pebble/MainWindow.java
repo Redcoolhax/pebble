@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
     private JComboBox<String> requestMethodSelection;
     private JTextField uriField;
     private JTextField httpVersionField;
+    private JTextArea headersArea;
     private JTextArea requestBody;
     private JButton sendRequestButton;
 
@@ -69,12 +70,30 @@ public class MainWindow extends JFrame {
         labelComponent(uriField, "URI");
         labelComponent(httpVersionField, "HTTP Version");
 
+        topLeft.x = 10;
+        topLeft.y += REQUEST_LINE_INPUT_HEIGHT + 30;
+
+        headersArea = new JTextArea();
+        headersArea.setLocation(topLeft);
+        headersArea.setSize(200, 200);
+        add(headersArea);
+
+        topLeft.x += headersArea.getWidth() + 30;
+
         requestBody = new JTextArea();
-        requestBody.setBounds(50, 100, 300, 200);
+        requestBody.setLocation(topLeft);
+        requestBody.setSize(300, 200);
         add(requestBody);
 
+        labelComponent(headersArea, "HTTP Headers");
+        labelComponent(requestBody, "Request Body");
+
         sendRequestButton = new JButton("Send Request");
-        sendRequestButton.setBounds(400, 300, 100, 40);
+        sendRequestButton.setSize(150, 40);
+        sendRequestButton.setLocation(
+            (this.getWidth() / 2) - (sendRequestButton.getWidth() / 2),
+            300
+        );
         sendRequestButton.addActionListener(this::onSendRequestButtonPress);
         add(sendRequestButton);
 
@@ -98,7 +117,7 @@ public class MainWindow extends JFrame {
             );
 
         HttpRequest request = requestBuilder.build();
-        
+
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             new TextWindow("HTTP Response", 400, 400, response.body());
