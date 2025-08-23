@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class MainWindow extends JFrame {
-    private static final int REQUEST_LINE_INPUT_HEIGHT = 30;
+    private static final int FIRST_ROW_COMPONENT_HEIGHT = 30;
 
     private JComboBox<String> requestMethodSelection;
     private JTextField uriField;
@@ -50,21 +50,21 @@ public class MainWindow extends JFrame {
         };
         requestMethodSelection = new JComboBox<>(requestMethods);
         requestMethodSelection.setLocation(topLeft);
-        requestMethodSelection.setSize(100, REQUEST_LINE_INPUT_HEIGHT);
+        requestMethodSelection.setSize(100, FIRST_ROW_COMPONENT_HEIGHT);
         add(requestMethodSelection);
 
         topLeft.x += requestMethodSelection.getWidth() + 10;
 
         uriField = new JTextField();
         uriField.setLocation(topLeft);
-        uriField.setSize(300, REQUEST_LINE_INPUT_HEIGHT);
+        uriField.setSize(300, FIRST_ROW_COMPONENT_HEIGHT);
         add(uriField);
 
         topLeft.x += uriField.getWidth() + 10;
 
         httpVersionField = new JTextField();
         httpVersionField.setLocation(topLeft);
-        httpVersionField.setSize(100, REQUEST_LINE_INPUT_HEIGHT);
+        httpVersionField.setSize(100, FIRST_ROW_COMPONENT_HEIGHT);
         add(httpVersionField);
 
         labelComponent(requestMethodSelection, "Request Method");
@@ -72,7 +72,7 @@ public class MainWindow extends JFrame {
         labelComponent(httpVersionField, "HTTP Version");
 
         topLeft.x = 10;
-        topLeft.y += REQUEST_LINE_INPUT_HEIGHT + 30;
+        topLeft.y += FIRST_ROW_COMPONENT_HEIGHT + 30;
 
         headersArea = new JTextArea();
         headersArea.setLocation(topLeft);
@@ -136,7 +136,7 @@ public class MainWindow extends JFrame {
 
     private ArrayList<Pair<String, String>> getHeaderInput() {
         String headerString = headersArea.getText();
-        
+
         if (headerString.equals(""))
             return new ArrayList<>();
         
