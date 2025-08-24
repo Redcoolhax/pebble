@@ -1,6 +1,7 @@
 package com.redcoolhax.pebble;
 
 import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 
 public class HttpParsing {
     /**
@@ -19,5 +20,35 @@ public class HttpParsing {
                 "Version: '" + version + "'' does not correspond to a valid HTTP version."
             );}
         }
+    }
+
+    /**
+     * Converts a HttpClient.Version enum to its respective String (as it shows up 
+     * in an HTTP request).
+     * @param version HttpClient.Version representation of an HTTP version.
+     * @return The respective String as it shows up in an HTTP request.
+     */
+    public static String versionEnumToString(HttpClient.Version version) {
+        return switch (version) {
+            case HTTP_1_1 -> "HTTP/1.1";
+            case HTTP_2 -> "HTTP/2";
+        };
+    }
+
+    /**
+     * Turns an HttpResponse into an easily readable, sorted section of text.
+     * @param response A String HttpResponse
+     * @return A readable String form of the response.
+     */
+    public static String responseToString(HttpResponse<String> response) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Version: " + versionEnumToString(response.version()) + "\n");
+        builder.append("Status Code: " + response.statusCode() + "\n\n");
+        builder.append("Headers:\n");
+        response.headers().map().forEach((key, value) -> {
+            builder.append(key + ": " + value + "\n");
+        });
+        builder.append("Body:\n" + response.body());
+        return builder.toString();
     }
 }

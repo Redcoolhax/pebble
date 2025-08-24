@@ -157,7 +157,7 @@ public class MainWindow extends JFrame {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            new TextWindow("HTTP Response", 400, 400, response.body());
+            new TextWindow("HTTP Response", 400, 400, HttpParsing.responseToString(response));
         } catch (IOException e) {
             newTextWindowForResourceAndStackTrace(
                 "IOException Occurred During Request", 700, 400,
