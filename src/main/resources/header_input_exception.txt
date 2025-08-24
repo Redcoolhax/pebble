@@ -1,0 +1,7 @@
+An exception has occured while trying to read your input for the HTTP headers. 
+Are you sure you inputted them correctly?
+Keep in mind, the required format is to have each 'key:value' on its own line.
+For example, this would be a valid set of HTTP headers:
+
+Content-Type: text/plain
+Accept: text/html, application/xml

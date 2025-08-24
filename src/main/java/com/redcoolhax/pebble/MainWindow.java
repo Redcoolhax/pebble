@@ -139,7 +139,16 @@ public class MainWindow extends JFrame {
                 HttpRequest.BodyPublishers.ofString(requestBody.getText())
             )
             .version(httpVersionStringToEnum(httpVersionSelection.getSelectedItem().toString()));
-        for (Pair<String, String> headerPair : getHeaderInput())
+        ArrayList<Pair<String, String>> headerInput;
+        try {
+            headerInput = getHeaderInput(); 
+        } catch (IllegalStateException e) {
+            newTextWindowForResource(
+                "Couldn't Read HTTP Headers", 500, 200, "header_input_exception.txt"
+            );
+            return;
+        }
+        for (Pair<String, String> headerPair : headerInput)
             requestBuilder.header(headerPair.getKey(), headerPair.getValue());
 
         HttpRequest request = requestBuilder.build();
@@ -177,6 +186,23 @@ public class MainWindow extends JFrame {
             headerPairs.add(new Pair<>(pair[0].trim(), pair[1].trim()));
         }
         return headerPairs;
+    }
+
+    /**
+     * Creates a new TextWindow with a resource text file.
+     * @param title The title of the window.
+     * @param width The width of the window.
+     * @param height The height of the window.
+     * @param resourcePath The path to the resource file.
+     */
+    private static void newTextWindowForResource(
+        String title, int width, int height, String resourcePath
+    ) {
+        try {
+            new TextWindow(title, width, height, ResourceReading.readAsText(resourcePath));
+        } catch (Exception e) {
+            handleExceptionForResourceReading(e);
+        }
     }
 
     /**
