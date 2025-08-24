@@ -1,0 +1,15 @@
+The URI scheme you inputted is not supported.
+
+For example, if you entered:
+"github.com/Redcoolhax"
+
+Then the version with a proper URI scheme would actually be:
+"https://github.com/Redcoolhax"
+
+If you're testing a server with localhost, then the same applies. 
+This wouldn't work:
+"localhost:8000"
+So you'd have to enter this instead:
+"http://localhost:8000"
+
+Full stack trace:

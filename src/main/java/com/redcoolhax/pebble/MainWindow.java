@@ -133,7 +133,6 @@ public class MainWindow extends JFrame {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-            .uri(URI.create(uriField.getText()))
             .method(
                 requestMethodSelection.getSelectedItem().toString(),
                 HttpRequest.BodyPublishers.ofString(requestBody.getText())
@@ -141,6 +140,14 @@ public class MainWindow extends JFrame {
             .version(HttpParsing.versionStringToEnum(
                 httpVersionSelection.getSelectedItem().toString()
             ));
+        try {
+            requestBuilder.uri(URI.create(uriField.getText()));
+        } catch (IllegalArgumentException e) {
+            newTextWindowForResourceAndStackTrace(
+                "Unsupported URI Scheme", 700, 400,
+                "unsupported_uri_scheme_exception.txt", e
+            );
+        }
         ArrayList<Pair<String, String>> headerInput;
         try {
             headerInput = getHeaderInput(); 
