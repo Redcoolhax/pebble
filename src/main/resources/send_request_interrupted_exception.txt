@@ -1,0 +1,7 @@
+The process of sending your request was interrupted. 
+This is likely a software bug on the part of Pebble itself and is 
+unrelated to the functionality of the server you're attempting to 
+send the request to.
+
+It is recommended that you file a software bug on Pebble's repository. 
+If you wish to do so, please include the below stack trace in your report:

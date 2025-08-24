@@ -158,11 +158,14 @@ public class MainWindow extends JFrame {
             new TextWindow("HTTP Response", 400, 400, response.body());
         } catch (IOException e) {
             newTextWindowForResourceAndStackTrace(
-                "IOException Occured During Request", 700, 400,
+                "IOException Occurred During Request", 700, 400,
                 "send_request_io_exception.txt", e
             );
         } catch (InterruptedException e) {
-            
+            newTextWindowForResourceAndStackTrace(
+                "InterruptedException Occurred During Request", 700, 400,
+                "send_request_interrupted_exception.txt", e
+            );
         }
     }
 
