@@ -29,7 +29,7 @@ public class MainWindow extends JFrame {
 
     private JComboBox<String> requestMethodSelection;
     private JTextField uriField;
-    private JTextField httpVersionField;
+    private JComboBox<String> httpVersionSelection;
     private JTextArea headersArea;
     private JTextArea requestBody;
     private JButton sendRequestButton;
@@ -70,14 +70,18 @@ public class MainWindow extends JFrame {
 
         topLeft.x += uriField.getWidth() + 10;
 
-        httpVersionField = new JTextField();
-        httpVersionField.setLocation(topLeft);
-        httpVersionField.setSize(100, FIRST_ROW_COMPONENT_HEIGHT);
-        add(httpVersionField);
+        String[] httpVersions = {
+            "HTTP/1.1",
+            "HTTP/2"
+        };
+        httpVersionSelection = new JComboBox<>(httpVersions);
+        httpVersionSelection.setLocation(topLeft);
+        httpVersionSelection.setSize(100, FIRST_ROW_COMPONENT_HEIGHT);
+        add(httpVersionSelection);
 
         labelComponent(requestMethodSelection, "Request Method");
         labelComponent(uriField, "URI");
-        labelComponent(httpVersionField, "HTTP Version");
+        labelComponent(httpVersionSelection, "HTTP Version");
 
         topLeft.x = 10;
         topLeft.y += FIRST_ROW_COMPONENT_HEIGHT + 30;
@@ -133,7 +137,8 @@ public class MainWindow extends JFrame {
             .method(
                 requestMethodSelection.getSelectedItem().toString(),
                 HttpRequest.BodyPublishers.ofString(requestBody.getText())
-            );
+            )
+            .version(httpVersionStringToEnum(httpVersionSelection.getSelectedItem().toString()));
         for (Pair<String, String> headerPair : getHeaderInput())
             requestBuilder.header(headerPair.getKey(), headerPair.getValue());
 
@@ -217,5 +222,23 @@ public class MainWindow extends JFrame {
         PrintWriter printWriter = new PrintWriter(stringWriter);
         e.printStackTrace(printWriter);
         return stringWriter.toString();
+    }
+
+    /**
+     * Converts a String representing an HTTP version (as it shows up in an HTTP request 
+     * or the httpVersionSelection JComboBox) to its equivalent HttpClient.Version enum value.
+     * @param version A String representing an HTTP version as it shows up in an HTTP request.
+     * @return The respective HttpClient.Version enum value.
+     * @throws IllegalArgumentException If the provided String does not correspond to a valid 
+     * HTTP version.
+     */
+    private static HttpClient.Version httpVersionStringToEnum(String version) {
+        switch (version) {
+            case "HTTP/1.1" -> {return HttpClient.Version.HTTP_1_1;}
+            case "HTTP/2" -> {return HttpClient.Version.HTTP_2;}
+            default -> {throw new IllegalArgumentException(
+                "Version: '" + version + "'' does not correspond to a valid HTTP version."
+            );}
+        }
     }
 }
