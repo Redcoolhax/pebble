@@ -150,8 +150,16 @@ public class MainWindow extends JFrame {
             );
             return;
         }
-        for (Pair<String, String> headerPair : headerInput)
-            requestBuilder.header(headerPair.getKey(), headerPair.getValue());
+        try {
+            for (Pair<String, String> headerPair : headerInput)
+                requestBuilder.header(headerPair.getKey(), headerPair.getValue());
+        } catch (IllegalArgumentException e) {
+            newTextWindowForResourceAndStackTrace(
+                "Invalid Headers Used", 700, 400,
+                "request_header_illegal_argument_exception.txt", e
+            );
+            return;
+        }
 
         HttpRequest request = requestBuilder.build();
 

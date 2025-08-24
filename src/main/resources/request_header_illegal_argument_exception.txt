@@ -1,0 +1,7 @@
+One or more of the entered request headers are not allowed.
+Some headers, such as 'Host', 'Connection', and 'Content-Length' are 
+handled by the request builder for security and compliance reasons, and 
+thus they cannot be manually set themselves.
+
+A stack trace has been included below, 
+in case you aren't sure which header tripped this alert:
