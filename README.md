@@ -8,7 +8,7 @@ Pebble is a GUI-based HTTP client tool that allows the user to quickly build and
 ## Planned Features
 - Provide 'context' for certain components by clicking on their respective labels, making the application more beginner-friendly, especially to those who are learning HTTP.
 - Better error handling. Although Pebble can produce error messages to warn the user that something has gone wrong, these can be somewhat complicated, and future updates will focus on providing a more intuitive experience for the user.
-- Make the HTTP responses more closely resemble their conventional format.
+- Possibly make the HTTP responses more closely resemble their conventional format, depending on user feedback.
 
 ## Limitations
 - Pebble can only send and receive content in text-based format (such as plain text, html, json, etc). At this time, there are no plans to support other forms of content such as audio or images.
