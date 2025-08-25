@@ -147,6 +147,11 @@ public class MainWindow extends JFrame {
                 "Unsupported URI Scheme", 700, 400,
                 "unsupported_uri_scheme_exception.txt", e
             );
+        } catch (NullPointerException e) {
+            newTextWindowForResourceAndStackTrace(
+                "Unsupported URI Scheme", 700, 400,
+                "unsupported_uri_scheme_exception.txt", e
+            );
         }
         ArrayList<Pair<String, String>> headerInput;
         try {
