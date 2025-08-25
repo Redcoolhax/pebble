@@ -24,5 +24,17 @@ mvn compile
 mvn exec:java
 ```
 
+Alternatively, you can compile it to a jar file, which allows it to be run independently of Maven. Pebble solely utilizes the Java standard library and doesn't include any other code dependencies, so the maven-jar-plugin is used for this purpose. This is also how the release versions are built for distribution. To try this, run the following command:
+```bash
+mvn package
+```
+
+That will generate a jar file in the target folder. To run it from the root folder, run this command:
+```bash
+java -jar target/pebble-0.1-SNAPSHOT.jar
+```
+
+The name of the jar will differ between versions, so make sure to replace 'pebble-0.1-SNAPSHOT.jar' with the actual name of the file.
+
 ## License
 This project is licensed under the [MIT License](LICENSE) © 2025 Redcoolhax.
