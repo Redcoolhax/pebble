@@ -49,7 +49,7 @@ public class HttpParsing {
         response.headers().map().forEach((key, value) -> {
             builder.append(key + ": " + value + "\n");
         });
-        builder.append("Body:\n" + response.body());
+        builder.append("\nBody:\n" + response.body());
         return builder.toString();
     }
 
