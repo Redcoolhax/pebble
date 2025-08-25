@@ -274,6 +274,7 @@ public class MainWindow extends JFrame {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         e.printStackTrace(printWriter);
+        printWriter.close();
         return stringWriter.toString();
     }
 }
