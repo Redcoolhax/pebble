@@ -9,7 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -155,18 +155,19 @@ public class MainWindow extends JFrame {
             );
             return;
         }
-        ArrayList<Pair<String, String>> headerInput;
+        LinkedHashMap<String, String> headers;
         try {
-            headerInput = getHeaderInput(); 
-        } catch (IllegalStateException e) {
+            headers = HttpParsing.parseHeaders(headersArea.getText());
+        } catch (IllegalArgumentException e) {
             newTextWindowForResource(
                 "Couldn't Read HTTP Headers", 500, 200, "header_input_exception.txt"
             );
             return;
         }
         try {
-            for (Pair<String, String> headerPair : headerInput)
-                requestBuilder.header(headerPair.getKey(), headerPair.getValue());
+            headers.forEach((key, value) -> {
+                requestBuilder.header(key, value);
+            });
         } catch (IllegalArgumentException e) {
             newTextWindowForResourceAndStackTrace(
                 "Invalid Headers Used", 700, 400,
@@ -191,28 +192,6 @@ public class MainWindow extends JFrame {
                 "send_request_interrupted_exception.txt", e
             );
         }
-    }
-
-    /**
-     * Retrieves the info from the headersArea and returns it as an ArrayList of key-value Pairs.
-     * @return The HTTP headers inputted by the user in the headersArea.
-     * @throws IllegalStateException If the input in the headersArea is invalid.
-     */
-    private ArrayList<Pair<String, String>> getHeaderInput() {
-        String headerString = headersArea.getText();
-
-        if (headerString.equals(""))
-            return new ArrayList<>();
-        
-        String[] lines = headerString.split("\n");
-        ArrayList<Pair<String, String>> headerPairs = new ArrayList<>();
-        for (String line : lines) {
-            String[] pair = line.split(":");
-            if (pair.length != 2)
-                throw new IllegalStateException("Error when parsing HTTP headers.");
-            headerPairs.add(new Pair<>(pair[0].trim(), pair[1].trim()));
-        }
-        return headerPairs;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.redcoolhax.pebble;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
+import java.util.LinkedHashMap;
 
 public class HttpParsing {
     /**
@@ -50,5 +51,32 @@ public class HttpParsing {
         });
         builder.append("Body:\n" + response.body());
         return builder.toString();
+    }
+
+    /**
+     * Turns a String, representing a series of headers as they show up in an 
+     * HTTP request, and returns a LinkedHashMap with all the key value pairs.
+     * The LinkedHashMap maintains the order of insertion, allowing it to be 
+     * iterated over in the same order that the headers were entered.
+     * Each header key-value pair should be separated by a newline.
+     * @param headersText A block of text with a series of HTTP headers.
+     * @return A LinkedHashMap containing all the key-value pairs.
+     * @throws IllegalArgumentException If one of the lines contains an 
+     * amount of colons other than 1 (used to denote the separation between the 
+     * key and value.)
+     */
+    public static LinkedHashMap<String, String> parseHeaders(String headersText) {
+        if (headersText.equals(""))
+            return new LinkedHashMap<>();
+        
+        String[] lines = headersText.split("\n");
+        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
+        for (String line : lines) {
+            String[] pair = line.split(":");
+            if (pair.length != 2)
+                throw new IllegalArgumentException("Error when parsing HTTP headers.");
+            headers.put(pair[0].trim(), pair[1].trim());
+        }
+        return headers;
     }
 }
