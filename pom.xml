@@ -6,7 +6,7 @@
 
     <groupId>com.redcoolhax.pebble</groupId>
     <artifactId>pebble</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
